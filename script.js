@@ -62,4 +62,28 @@ function playRound(playerSelection, computerSelection) {
   }
 }
 
-console.log(playRound(playerPlay(), computerPlay()));
+function displayWinner(playerPoints, computerPoints) {
+  if (playerPoints > computerPoints) {
+    alert('Congratulation!\nYou win the game!');
+  } else if (playerPoints < computerPoints) {
+    alert('Sorry(\nComputer wins the game :3');
+  } else {
+    alert("Whaoh!\nIt's a Tied :3");
+  }
+}
+
+// I will come back in the future :3
+(function game() {
+  let playerPoints = 0;
+  let computerPoints = 0;
+
+  for (let i = 0; i < 5; i++) {
+    let roundResult = playRound(playerPlay(), computerPlay());
+    console.log(roundResult);
+    if (roundResult.includes('Win')) {
+      playerPoints++;
+    } else computerPoints++;
+  }
+
+  displayWinner(playerPoints, computerPoints);
+})();
