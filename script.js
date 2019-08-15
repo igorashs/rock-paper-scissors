@@ -72,8 +72,7 @@ function displayWinner(playerPoints, computerPoints) {
   }
 }
 
-// I will come back in the future :3
-(function game() {
+function game() {
   let playerPoints = 0;
   let computerPoints = 0;
 
@@ -86,4 +85,4 @@ function displayWinner(playerPoints, computerPoints) {
   }
 
   displayWinner(playerPoints, computerPoints);
-})();
+}

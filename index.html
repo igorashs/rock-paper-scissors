@@ -4,9 +4,44 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="styles/reset.css" />
+    <link rel="stylesheet" href="styles/style.css" />
     <title>Rock Paper Scissors</title>
   </head>
   <body>
+    <p class="game-name">Rock Paper Scissors</p>
+    <div class="game">
+      <div class="display">
+        <div class="round-count-container">
+          <p class="round-counter">Round <span>1</span></p>
+        </div>
+        <div class="game-turn-container">
+          <p class="pc choice">PC choice</p>
+          <p class="player-turn">
+            Player turn!<br />
+            select your choice...
+          </p>
+          <p class="pl choice">PL choice</p>
+        </div>
+        <div class="score-container">
+          <p class="score">PC-SP: 0</p>
+          <p class="score">PL-SP: 0</p>
+        </div>
+      </div>
+      <div class="control">
+        <div class="choices">
+          <div class="circle"><div class="choice rock"></div></div>
+          <div class="circle"><div class="choice paper"></div></div>
+          <div class="circle"><div class="choice scissors"></div></div>
+        </div>
+        <div class="menu">
+          <button class="btn-start">Start</button>
+          <!-- <button class="btn-theme">Theme</button> -->
+          <button class="btn-gm">GameOver</button>
+        </div>
+      </div>
+    </div>
+
     <script src="script.js"></script>
   </body>
 </html>
