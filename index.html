@@ -16,28 +16,34 @@
           <p class="round-counter">Round <span>1</span></p>
         </div>
         <div class="game-turn-container">
-          <p class="pc choice">PC choice</p>
+          <div class="pc choice"><p>PC</p></div>
           <p class="player-turn">
             Player turn!<br />
             select your choice...
           </p>
-          <p class="pl choice">PL choice</p>
+          <div class="pl choice"><p>PL</p></div>
         </div>
         <div class="score-container">
-          <p class="score">PC-SP: 0</p>
-          <p class="score">PL-SP: 0</p>
+          <p class="score">PC-SP <span>0</span></p>
+          <p class="score"><span>0</span> PL-SP</p>
         </div>
       </div>
       <div class="control">
-        <div class="choices">
-          <div class="circle"><div class="choice rock"></div></div>
-          <div class="circle"><div class="choice paper"></div></div>
-          <div class="circle"><div class="choice scissors"></div></div>
+        <div class="choices-container">
+          <div class="circle selection" data-choice="rock">
+            <div class="rock" data-choice="rock"></div>
+          </div>
+          <div class="circle selection" data-choice="paper">
+            <div class="paper" data-choice="paper"></div>
+          </div>
+          <div class="circle selection" data-choice="scissors">
+            <div class="scissors" data-choice="scissors"></div>
+          </div>
         </div>
         <div class="menu">
           <button class="btn-start">Start</button>
           <!-- <button class="btn-theme">Theme</button> -->
-          <button class="btn-gm">GameOver</button>
+          <button class="btn-end">End Game</button>
         </div>
       </div>
     </div>

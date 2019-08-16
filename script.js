@@ -86,3 +86,46 @@ function game() {
 
   displayWinner(playerPoints, computerPoints);
 }
+
+// V2
+
+const selectHandler = (e) => {
+  const choice = e.target.dataset.choice;
+  if (choice) {
+    appendSelection(choice);
+    freezeChoices(e.currentTarget);
+  }
+};
+
+document
+  .querySelector('body > div > div.control > div.choices-container')
+  .addEventListener('click', selectHandler);
+
+function appendSelection(choice) {
+  const selection = document
+    .querySelector(
+      `body > div > div.control > div.choices-container > div[data-choice="${choice}"] > div`
+    )
+    .cloneNode();
+  document
+    .querySelector(
+      'body > div > div.display > div.game-turn-container > div.pl.choice'
+    )
+    .appendChild(selection);
+
+  selection.classList.toggle('hidden');
+  setTimeout(() => {
+    selection.classList.toggle('hidden');
+    setTimeout(() => {
+      selection.classList.toggle('appear');
+    }, 500);
+  }, 500);
+}
+
+function freezeChoices(choices) {
+  [...choices.children].forEach((choice) => {
+    choice.classList.toggle('disable-choice');
+  });
+
+  choices.removeEventListener('click', selectHandler);
+}
