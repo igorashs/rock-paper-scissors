@@ -1,31 +1,9 @@
 function computerPlay() {
   const randomSelection = getRandomInt(4);
-  return randomSelection == 0
-    ? 'rock'
-    : randomSelection == 1
-    ? 'paper'
-    : 'scissors';
-}
-
-function playerPlay() {
-  let playerSelection;
-  do {
-    playerSelection = prompt('Choose: rock | paper | scissors');
-  } while (!validateSelection(playerSelection));
-  return playerSelection.toLowerCase();
-}
-
-function validateSelection(selection) {
-  if (selection) {
-    let insensitiveSelection = selection.toLowerCase();
-    if (
-      insensitiveSelection == 'rock' ||
-      insensitiveSelection === 'paper' ||
-      insensitiveSelection === 'scissors'
-    )
-      return true;
-  }
-  return false;
+  const choice =
+    randomSelection == 0 ? 'rock' : randomSelection == 1 ? 'paper' : 'scissors';
+  appendSelection(choice, 'pc');
+  return choice;
 }
 
 function getRandomInt(max) {
@@ -33,6 +11,7 @@ function getRandomInt(max) {
 }
 
 function playRound(playerSelection, computerSelection) {
+  // goooood
   if (playerSelection === computerSelection) {
     return 'The round is Tied!';
   }
@@ -72,36 +51,9 @@ function displayWinner(playerPoints, computerPoints) {
   }
 }
 
-function game() {
-  let playerPoints = 0;
-  let computerPoints = 0;
-
-  for (let i = 0; i < 5; i++) {
-    let roundResult = playRound(playerPlay(), computerPlay());
-    console.log(roundResult);
-    if (roundResult.includes('Win')) {
-      playerPoints++;
-    } else computerPoints++;
-  }
-
-  displayWinner(playerPoints, computerPoints);
-}
-
 // V2
 
-const selectHandler = (e) => {
-  const choice = e.target.dataset.choice;
-  if (choice) {
-    appendSelection(choice);
-    freezeChoices(e.currentTarget);
-  }
-};
-
-document
-  .querySelector('body > div > div.control > div.choices-container')
-  .addEventListener('click', selectHandler);
-
-function appendSelection(choice) {
+function appendSelection(choice, currentPlayer) {
   const selection = document
     .querySelector(
       `body > div > div.control > div.choices-container > div[data-choice="${choice}"] > div`
@@ -109,7 +61,7 @@ function appendSelection(choice) {
     .cloneNode();
   document
     .querySelector(
-      'body > div > div.display > div.game-turn-container > div.pl.choice'
+      `body > div > div.display > div.game-turn-container > div.${currentPlayer}.choice`
     )
     .appendChild(selection);
 
@@ -117,15 +69,81 @@ function appendSelection(choice) {
   setTimeout(() => {
     selection.classList.toggle('hidden');
     setTimeout(() => {
-      selection.classList.toggle('appear');
+      if (currentPlayer == 'pl') selection.classList.toggle('appear');
+      else selection.classList.toggle('appear-reverse');
     }, 500);
   }, 500);
 }
 
+const selectHandler = (e) => {
+  const choice = e.target.dataset.choice;
+  if (choice) {
+    appendSelection(choice, 'pl');
+    freezeChoices(e.currentTarget);
+  }
+};
+
+function playerPlay() {
+  return document.querySelector('div.pl.choice > div').dataset.choice;
+}
+
 function freezeChoices(choices) {
   [...choices.children].forEach((choice) => {
-    choice.classList.toggle('disable-choice');
+    choice.classList.add('disable-choice');
   });
-
   choices.removeEventListener('click', selectHandler);
+}
+
+function unFreezeChoices(choices) {
+  [...choices.children].forEach((choice) => {
+    choice.classList.remove('disable-choice');
+  });
+  choices.addEventListener('click', selectHandler);
+}
+
+function freezeButton(btn) {
+  btn.classList.add('disable-button');
+}
+
+function unFreezeButton(btn) {
+  btn.classList.remove('disable-button');
+}
+
+const startNewGameHandler = (e) => {
+  unFreezeChoices(choicesPanel);
+  freezeButton(startBtn);
+  unFreezeButton(endBtn);
+  startBtn.removeEventListener('click', startNewGameHandler);
+  endBtn.addEventListener('click', endGameHandler);
+};
+
+const endGameHandler = (e) => {
+  freezeChoices(choicesPanel);
+  freezeButton(endBtn);
+  unFreezeButton(startBtn);
+  endBtn.removeEventListener('click', endGameHandler);
+  startBtn.addEventListener('click', startNewGameHandler);
+};
+
+const choicesPanel = document.querySelector('div.choices-container');
+
+const startBtn = document.querySelector('div.btn-start.button');
+const endBtn = document.querySelector('div.btn-end.button');
+
+function game() {
+  startBtn.addEventListener('click', startNewGameHandler);
+  let roundResult = playRound(playerPlay(), computerPlay());
+
+  document.querySelector(
+    'div.game-turn-container > p'
+  ).textContent = roundResult;
+  // let playerPoints = 0;
+  // let computerPoints = 0;
+  // for (let i = 0; i < 5; i++) {
+  //   console.log(roundResult);
+  //   if (roundResult.includes('Win')) {
+  //     playerPoints++;
+  //   } else computerPoints++;
+  // }
+  // displayWinner(playerPoints, computerPoints);
 }

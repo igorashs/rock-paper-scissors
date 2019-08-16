@@ -143,21 +143,25 @@ body {
   justify-content: space-evenly;
 }
 
-.menu button {
+.button {
   border-radius: 10px;
   font-family: inherit;
   width: 148px;
   height: 48px;
   color: white;
-  background-color: rgb(127, 13, 161);
-  border: 2px solid rgb(63, 40, 10);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: rgba(127, 13, 161, 0.6);
+  border: 2px solid rgba(63, 40, 100, 0.89);
   transition: transform 500ms, width 500ms, height 500ms;
   text-shadow: 1px 1px rgb(0, 0, 0);
 }
 
-.menu button:hover {
+.button:hover {
   transform: scale(1.1);
-  background-color: rgb(93, 184, 2);
+  background-color: rgba(93, 184, 2, 0.8);
 }
 
 .rock {
@@ -218,6 +222,15 @@ body {
   transform: rotate(0deg) scale(1);
 }
 
+.disable-button {
+  background-color: rgba(212, 212, 212, 0.4);
+}
+
+.disable-button:hover {
+  transform: scale(1);
+  background-color: rgba(212, 212, 212, 0.5);
+}
+
 .game:hover {
   box-shadow: 0 0 20px 10px rgb(127, 13, 161);
 }
@@ -225,7 +238,9 @@ body {
 .hidden {
   transform: scale(0);
 }
-
 .appear {
   transform: rotate(-45deg) scale(1.4);
+}
+.appear-reverse {
+  transform: rotate(45deg) scale(1.4);
 }
