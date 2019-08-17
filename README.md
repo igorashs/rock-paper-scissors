@@ -2,7 +2,7 @@
 
 ## From The Odin Project's [curriculum](https://www.theodinproject.com/lessons/rock-paper-scissors)
 
-### First version of the game (using prompt)
+### Update! V2 (Added UI)
 
-**NOTE**
-Live demo in the future version!
+**V2**
+[Live demo](https://igorashs.github.io/rock-paper-scissors/)
