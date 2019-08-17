@@ -127,15 +127,24 @@ body {
 }
 
 .player-turn {
+  font-size: 30px;
+  line-height: 1.4em;
   align-self: flex-start;
   text-align: center;
   transition: color 2s;
-  color: yellow;
-  text-shadow: 1px 1px rgb(127, 13, 161);
+  animation: blink 1s ease-in-out infinite alternate;
 }
-/* cause lagg */
-.t-color {
-  color: yellow;
+
+@keyframes blink {
+  0% {
+    color: rgb(39, 0, 102);
+    text-shadow: 1px 1px rgb(127, 13, 161);
+  }
+
+  100% {
+    color: rgb(83, 10, 77);
+    text-shadow: 1px 1px rgb(255, 255, 255);
+  }
 }
 
 .menu {
@@ -155,7 +164,7 @@ body {
   cursor: pointer;
   background-color: rgba(127, 13, 161, 0.6);
   border: 2px solid rgba(63, 40, 100, 0.89);
-  transition: transform 500ms, width 500ms, height 500ms;
+  transition: transform 500ms, width 500ms, height 500ms, background-color 500ms;
   text-shadow: 1px 1px rgb(0, 0, 0);
 }
 

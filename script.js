@@ -41,18 +41,6 @@ function playRound(playerSelection, computerSelection) {
   }
 }
 
-function displayWinner(playerPoints, computerPoints) {
-  if (playerPoints > computerPoints) {
-    alert('Congratulation!\nYou win the game!');
-  } else if (playerPoints < computerPoints) {
-    alert('Sorry(\nComputer wins the game :3');
-  } else {
-    alert("Whaoh!\nIt's a Tied :3");
-  }
-}
-
-// V2
-
 function appendSelection(choice, currentPlayer) {
   const selection = document
     .querySelector(
@@ -80,12 +68,12 @@ const selectHandler = (e) => {
   if (choice) {
     appendSelection(choice, 'pl');
     freezeChoices(e.currentTarget);
+    freezeButton(endBtn);
+    setTimeout(() => {
+      playGame(choice, computerPlay());
+    }, 1000);
   }
 };
-
-function playerPlay() {
-  return document.querySelector('div.pl.choice > div').dataset.choice;
-}
 
 function freezeChoices(choices) {
   [...choices.children].forEach((choice) => {
@@ -103,13 +91,27 @@ function unFreezeChoices(choices) {
 
 function freezeButton(btn) {
   btn.classList.add('disable-button');
+  if (btn.textContent == 'New Game') {
+    btn.removeEventListener('click', startNewGameHandler);
+  } else {
+    btn.removeEventListener('click', endGameHandler);
+  }
 }
 
 function unFreezeButton(btn) {
   btn.classList.remove('disable-button');
+  if (btn.textContent == 'New Game') {
+    btn.addEventListener('click', startNewGameHandler);
+  } else {
+    btn.addEventListener('click', endGameHandler);
+  }
 }
 
 const startNewGameHandler = (e) => {
+  roundPara.textContent = 'Round ';
+  rd.textContent = '1';
+  roundPara.appendChild(rd);
+  gameTurn.textContent = 'Player turn! select your choice...';
   unFreezeChoices(choicesPanel);
   freezeButton(startBtn);
   unFreezeButton(endBtn);
@@ -123,27 +125,102 @@ const endGameHandler = (e) => {
   unFreezeButton(startBtn);
   endBtn.removeEventListener('click', endGameHandler);
   startBtn.addEventListener('click', startNewGameHandler);
+  roundPara.textContent = 'R P S ';
+  gameTurn.textContent = 'Start a New Game!';
+  resetGame();
 };
 
 const choicesPanel = document.querySelector('div.choices-container');
 
+const rd = document.querySelector('#round').cloneNode();
+const roundPara = document.querySelector('div.round-count-container > p');
+const gameTurn = document.querySelector('div.game-turn-container > p');
+
 const startBtn = document.querySelector('div.btn-start.button');
 const endBtn = document.querySelector('div.btn-end.button');
 
-function game() {
-  startBtn.addEventListener('click', startNewGameHandler);
-  let roundResult = playRound(playerPlay(), computerPlay());
+startBtn.addEventListener('click', startNewGameHandler);
 
-  document.querySelector(
-    'div.game-turn-container > p'
-  ).textContent = roundResult;
-  // let playerPoints = 0;
-  // let computerPoints = 0;
-  // for (let i = 0; i < 5; i++) {
-  //   console.log(roundResult);
-  //   if (roundResult.includes('Win')) {
-  //     playerPoints++;
-  //   } else computerPoints++;
-  // }
-  // displayWinner(playerPoints, computerPoints);
+let playerPoints = 0;
+let computerPoints = 0;
+let round = 1;
+
+function playGame(playerChoice, computerChoice) {
+  gameTurn.textContent = '........';
+  let roundResult = playRound(playerChoice, computerChoice);
+  setTimeout(() => increasePoints(roundResult), 3000);
+
+  setTimeout(() => calculateProgress(roundResult), 3000);
+
+  setTimeout(clearDisplay, 5 * 1000);
+}
+
+function resetGame() {
+  playerPoints = 0;
+  computerPoints = 0;
+  round = 1;
+  freezeChoices(choicesPanel);
+  unFreezeButton(startBtn);
+  freezeButton(endBtn);
+  startBtn.addEventListener('click', startNewGameHandler);
+  updatePoints();
+  updateRoundCounter();
+}
+
+function playNextRound() {
+  setTimeout(
+    () => (gameTurn.textContent = 'Player turn! select your choice...'),
+    2000
+  );
+}
+
+function clearDisplay() {
+  document.querySelector('div.pl.choice > div').remove();
+  document.querySelector('div.pc.choice > div').remove();
+}
+
+function updateRoundCounter() {
+  rd.textContent = round;
+}
+
+function updatePoints() {
+  let pc = document.querySelector('#pc-sp');
+  let pl = document.querySelector('#pl-sp');
+
+  pc.textContent = computerPoints;
+  pl.textContent = playerPoints;
+}
+
+function increasePoints(result) {
+  if (result.includes('Win')) {
+    playerPoints++;
+  } else if (result.includes('Lose')) computerPoints++;
+  else {
+    playerPoints++;
+    computerPoints++;
+  }
+  round++;
+}
+
+function calculateProgress(result) {
+  updatePoints();
+  setTimeout(updateRoundCounter, 2000);
+  if (round > 5) {
+    let winner = "It's a Tied :3";
+    if (playerPoints > computerPoints) {
+      winner = 'Congratulation!\nYou win the game!';
+    } else {
+      winner = 'Sorry(\nComputer wins the game :3';
+    }
+    gameTurn.textContent = winner;
+    roundPara.textContent = 'R P S ';
+    setTimeout(resetGame, 2000);
+    return;
+  }
+  setTimeout(() => {
+    unFreezeChoices(choicesPanel);
+    unFreezeButton(endBtn);
+  }, 2000);
+  gameTurn.textContent = result;
+  playNextRound();
 }
