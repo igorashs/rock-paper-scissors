@@ -1,7 +1,7 @@
 const cacheName = 'rpsV1';
 
 self.addEventListener('install', (e) => {
-  e.skipWaiting();
+  caches.skipWaiting();
 });
 
 self.addEventListener('activate', (e) => {
