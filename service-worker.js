@@ -1,7 +1,5 @@
 const cacheName = 'rpsV1';
 
-self.addEventListener('install', (e) => {});
-
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -27,6 +25,6 @@ self.addEventListener('fetch', (e) => {
 
         return res;
       })
-      .catch(() => cache.match(e.request).then((res) => res))
+      .catch(() => caches.match(e.request).then((res) => res))
   );
 });
